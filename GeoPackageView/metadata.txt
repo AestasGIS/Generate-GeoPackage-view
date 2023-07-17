@@ -1,0 +1,51 @@
+# This file contains metadata for your plugin.
+
+# This file should be included when you package your plugin.# Mandatory items:
+
+[general]
+name=GeoPackage View generator
+# Plugin will generate warning caused by an error in GDAL ver <= 3.7.0. Error has been fixed in GDAL 3.7.1 and later; i.e QGIS ver. 3.34 and later 
+qgisMinimumVersion=3.20 
+
+description=This plugin generates auxiliary information in a GeoPackage to make a user-provided spatial view visible for QGIS.
+description[da]=Dette plugin genererer ekstra information, som gør et bruger-oprettet spatielt view synligt for QGIS.
+version=0.1
+author=AestasGis
+email=bvt@aestas.dk
+
+about=This plugin generates auxiliary information in a GeoPackage to make a user provided spatial view visible for QGIS. It will update sevaral meta tables based on input from the user and spatial information from the view. The plugin is developed and maintained by AestasGIS.
+
+tracker=https://github.com/AestasGIS/Generate-GeoPackage-view/issues
+repository=https://github.com/AestasGIS/Generate-GeoPackage-view
+# End of mandatory metadata
+
+# Recommended items:
+
+hasProcessingProvider=yes
+# Uncomment the following line and add your changelog:
+changelog=Version 0.1: Initial version
+
+
+# Tags are comma separated with spaces allowed
+tags=geopackage,view,spatial
+
+homepage=https://github.com/AestasGIS/Generate-GeoPackage-view
+category=Database management
+icon=icon.png
+# experimental flag
+experimental=False
+
+# deprecated flag (applies to the whole plugin, not just a single version)
+deprecated=False
+
+# Since QGIS 3.8, a comma separated list of plugins to be installed
+# (or upgraded) can be specified.
+# Check the documentation for more information.
+# plugin_dependencies=
+
+Category of the plugin: Raster, Vector, Database or Web
+# category=
+
+# If the plugin can run on QGIS Server.
+server=False
+
