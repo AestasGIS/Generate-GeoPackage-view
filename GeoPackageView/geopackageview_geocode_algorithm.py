@@ -279,23 +279,28 @@ class GeoPackageViewAlgorithm(QgsProcessingAlgorithm):
         return self.helpString()
 
     def helpString(self):
-        return self.tr("""<p>Denne algoritme er udviklet af <a href="https://www.septima.dk">AestasGIS</a> og anvender <a href="https://dawa.aws.dk/">DAWA</a>s Datavask-API.</p><p>
+        return self.tr("""<p>Denne algoritme er udviklet af AestasGIS til at synliggøre spatielle view i GeoPackage filer defineret af brugeren.
+</p>
+<p>
+        Spatielle tabeller og views skal opsættes i en række meta tabeller indlejret i en GeoPackage fil. Denne proces er automatiseret for tabeller, men mangler pt. for views.
+</p>
+<p>
+        Denne algoritme finder alle views i en af brugeren valgt geopackage og viser dem i en drop-down liste. Brugeren kan herefter vælge det relevante view. 
+        
+<p>
+        Ved kørsel af algoritmen bliver indholdet af det valgte view undersøgt og der findes følgende parametre: 
+<ul>
+  <li>Navn på geometri kolonne</li>
+  <li>Geometri type (POINT, LINESTRING, POLYGON osv.) </li>
+  <li>Projektion</li>
+  <li>Dimensionalitet af geometrier (XY, XYZ, XYZM)</li>
+</ul>  
 
-        Datavask-API'et gør det muligt at oversætte en ustruktureret adressetekst til en officiel, struktureret adresse med ID, også selvom adressen evt. indeholder en stavefejl eller den officielle adressebetegnelse er ændret.
 </p>
 <p>
-Datavask-API'et tager imod en adressetekst og returnerer den adresse, som bedst matcher adressen. Har anvenderen en struktueret adresse i forvejen skal anvenderen selv sammensætte adresseteksten evt. ved brug af et udtryk.
-</p>
+Disse værdier gemmes i relevante meta tabeller i geopackage.</p>
 <p>
-Bemærk, at der er separate API'er til vask af <b>adresser</b> og <b>adgangsadresser</b>. Forskellen på en adresse og en adgangsadresse er at adressen rummer eventuel etage- og/eller dørbetegnelse. Det gør adgangsadressen ikke.
-<p><p>
-Datavask svar indeholder en angivelse af hvor sikkert svaret er, anført som en <b>kategori</b> A, B eller C. Kategori A indikerer, at der er tale om et eksakt match. Kategori B indikerer, at der ikke er tale om et helt eksakt match, men at resultatet stadig er sikkert. Kategori C angiver, at resultatet usikkert.
-</p>
-<p>
-En gyldig adresse kan skrives på flere forskellige måder (varianter). Man kan vælge at udelade det supplerende bynavn, man kan benytte det forkorterede "adresseringsvejnavn" i stedet for det fulde vejnavn, og man kan anvende såkaldte "stormodtagerpostnumre".
-</p>
-<p>
-Datavask anvender også historiske adresser som datagrundlag, således at adresser som er ændret også kan vaskes. Endvidere håndterer datavasken også adresser hvor der er anvendt stormodtagerpostnumre.
+Efter dette vil QGIS Datahåndtering vise view'et som var det en read-only tabel</p>
 </p>
         """)
 
