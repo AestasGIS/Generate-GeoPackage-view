@@ -25,6 +25,61 @@
 __author__ = 'AestasGIS'
 __date__ = '2023-07-17'
 __copyright__ = '(C) 2023 by AestasGIS'
+import re
+
+layer = iface.activeLayer()
+layerProvider = layer.dataProvider()
+layerStorage = layerProvider.storageType()
+
+file_path = layerProvider.dataSourceUri().split('|')[0]
+subset = layerProvider.subsetString()
+pkid = layer.fields()[layer.primaryKeyAttributes()[0]].name()
+table_name = layer.name().lower().replace('æ','ae').replace('ø','oe').replace('å','aa')
+table_name = re.sub('[^a-zA-Z0-9_\n\.]', '_', table_name)
+table_name = re.sub('_{2,}','_', table_name)
+
+sqltxt = 'CREATE VIEW {} AS {}'.format(view_name,subset)
+
+if layer.isSpatial():
+    data_type = 'features'
+    identifier = table_name 
+    ext = layer.extent()
+    min_x = ext.xMinimum()
+    max_x = ext.xMaximum()
+    min_y = ext.yMinimum()
+    max_y = ext.yMaximum()
+    srs_id = layer.crs().authid().replace('EPSG:','')
+    
+    column_name = layerProvider.geometryColumnName()
+    geometry_type_name = 'MULTIPOLYGON'
+    z= 0
+    m = 0
+    
+else: 
+
+    data_type = 'attributes'
+    identifier = table_name 
+    min_x = NULL
+    max_x = NULL
+    min_y = NULL
+    max_y = NULL
+    srs_id = 0
+
+sql1txt = 'INSERT INTO gpkg_contents (table_name,data_type,identifier,min_x,min_y,max_x,max_y,srs_id) VALUES (\'{}\',\'{}\',\'{}\',{},{},{},{},{});'.format(table_name,data_type,identifier,min_x,min_y,max_x,max_y,srs_id)
+
+if data_type = 'features':
+    sql2txt = 'INSERT INTO gpkg_geometry_columns(table_name,column_name,geometry_type_name,srs_id,z,m) VALUES (\'{}\',\'{}\',\'{}\',{},{},{})'.format(table_name,column_name,geometry_type_name,srs_id,z,m);
+else:
+    sql2txt = ''
+
+md = QgsProviderRegistry.instance().providerMetadata("ogr")
+con = md.createConnection( file_path, {})
+
+print (sqltxt)
+print (sql1txt)
+print (sql2txt)
+
+
 
 # This will get replaced with a git SHA1 when you do a git archive
 
