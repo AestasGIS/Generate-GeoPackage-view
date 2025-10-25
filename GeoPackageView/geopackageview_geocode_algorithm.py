@@ -51,10 +51,16 @@ if layer.isSpatial():
     srs_id = layer.crs().authid().replace('EPSG:','')
     
     column_name = layerProvider.geometryColumnName()
-    geometry_type_name = 'MULTIPOLYGON'
     z= 0
     m = 0
-    
+    geometry_type_name = QgsWkbTypes.displayString(layer.wkbType()).upper() 
+    if geometry_type_name[-1] == 'M':
+        m = 1
+        geometry_type_name = geometry_type_name[:-1]
+    if geometry_type_name[-1] == 'Z':
+        z = 1
+        geometry_type_name = geometry_type_name[:-1]
+            
 else: 
 
     data_type = 'attributes'
@@ -67,17 +73,16 @@ else:
 
 sql1txt = 'INSERT INTO gpkg_contents (table_name,data_type,identifier,min_x,min_y,max_x,max_y,srs_id) VALUES (\'{}\',\'{}\',\'{}\',{},{},{},{},{});'.format(table_name,data_type,identifier,min_x,min_y,max_x,max_y,srs_id)
 
-if data_type = 'features':
+if data_type =='features':
     sql2txt = 'INSERT INTO gpkg_geometry_columns(table_name,column_name,geometry_type_name,srs_id,z,m) VALUES (\'{}\',\'{}\',\'{}\',{},{},{})'.format(table_name,column_name,geometry_type_name,srs_id,z,m);
 else:
     sql2txt = ''
 
 md = QgsProviderRegistry.instance().providerMetadata("ogr")
 con = md.createConnection( file_path, {})
-
-print (sqltxt)
-print (sql1txt)
-print (sql2txt)
+con.executeSql (sqltxt)
+con.executeSql (sql1txt)
+if sql2txt != '': con.executeSql (sql2txt)
 
 
 
